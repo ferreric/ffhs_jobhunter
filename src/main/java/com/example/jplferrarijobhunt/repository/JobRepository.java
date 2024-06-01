@@ -1,11 +1,13 @@
 package com.example.jplferrarijobhunt.repository;
 import com.example.jplferrarijobhunt.model.JobOffer;
-import com.example.jplferrarijobhunt.model.ApplicationStatus;
-import java.time.LocalDate;
-import java.util.List;
+//import com.example.jplferrarijobhunt.model.ApplicationStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public class JobRepository {
+//import java.time.LocalDate;
+//import java.util.List;
 
+public interface JobRepository extends JpaRepository<JobOffer, Integer> {
+/*
     private List<JobOffer> offers;
 
     public JobRepository() {
@@ -27,5 +29,5 @@ public class JobRepository {
                 .findFirst()
                 .orElse(null);
     }
-
+*/
 }

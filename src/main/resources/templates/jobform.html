@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Job Offer</title>
+</head>
+<body>
+<h1>Create Job Offer</h1>
+<form action="/jobs" method="post">
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required><br><br>
+
+    <label for="url">URL:</label>
+    <input type="text" id="url" name="url" required><br><br>
+
+    <label for="addedDate">Added Date:</label>
+    <input type="date" id="addedDate" name="addedDate" required><br><br>
+
+    <label for="appliedDate">Applied Date:</label>
+    <input type="date" id="appliedDate" name="appliedDate"><br><br>
+
+    <label for="status">Status:</label>
+    <select id="status" name="status" required>
+        <option value="LISTED">LISTED</option>
+        <option value="APPLIED">APPLIED</option>
+        <option value="REJECTED">REJECTED</option>
+        <option value="IN_PROCESS">IN_PROCESS</option>
+        <option value="HIRED">HIRED</option>
+    </select><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+</body>
+</html>

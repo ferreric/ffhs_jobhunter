@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Offers</title>
+</head>
+<body>
+<h1>Job Offers</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Description</th>
+        <th>URL</th>
+        <th>Added Date</th>
+        <th>Applied Date</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="job : ${jobOffersPage.content}">
+        <td th:text="${job.description}">Description</td>
+        <td><a th:href="${job.url}" th:text="${job.url}">URL</a></td>
+        <td th:text="${job.addedDate}">Added Date</td>
+        <td th:text="${job.appliedDate}">Applied Date</td>
+        <td th:text="${job.status}">Status</td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <button th:if="${jobOffersPage.hasNext()}" onclick="window.location.href='/jobs?page=${currentPage + 1}'">Load More</button>
+</div>
+<a href="/jobs/create">Create New Job Offer</a>
+</body>
+</html>

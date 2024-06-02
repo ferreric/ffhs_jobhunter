@@ -3,6 +3,8 @@ package com.example.jplferrarijobhunt.controller;
 import com.example.jplferrarijobhunt.model.JobOffer;
 import com.example.jplferrarijobhunt.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +19,8 @@ public class JobService {
         this.jobRepository = jobRepository;
     }
 
-    public List<JobOffer> findAllJobs() {
-        return jobRepository.findAll();
+    public Page<JobOffer> findPaginatedJobs(int page, int size) {
+        return jobRepository.findAll(PageRequest.of(page, size));
     }
 
     public JobOffer findJobById(Integer id) {

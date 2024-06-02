@@ -4,32 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Offers</title>
+    <script>
+        function setToday(fieldId) {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById(fieldId).value = today;
+        }
+
+        function updateJob(id) {
+            const appliedDate = document.getElementById(`appliedDate-${id}`).value;
+            const status = document.getElementById(`status-${id}`).value;
+
+            fetch(`/jobs/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    appliedDate: appliedDate,
+                    status: status
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Job updated successfully');
+                })
+                .catch(error => {
+                    alert('Error updating job: ' + error);
+                });
+        }
+
+        function deleteJob(id) {
+            fetch(`/jobs/${id}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Job deleted successfully');
+                        document.getElementById(`job-row-${id}`).remove();
+                    } else {
+                        alert('Error deleting job');
+                    }
+                });
+        }
+    </script>
 </head>
 <body>
 <h1>Job Offers</h1>
 <table>
     <thead>
     <tr>
+        <th>ID</th>
         <th>Description</th>
         <th>URL</th>
         <th>Added Date</th>
         <th>Applied Date</th>
         <th>Status</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="job : ${jobOffersPage.content}">
-        <td th:text="${job.description}">Description</td>
+    <tr th:each="job : ${jobPage.content}" th:id="'job-row-' + ${job.id}">
+        <td th:text="${job.id}">1</td>
+        <td th:text="${job.description}">Job Description</td>
         <td><a th:href="${job.url}" th:text="${job.url}">URL</a></td>
-        <td th:text="${job.addedDate}">Added Date</td>
-        <td th:text="${job.appliedDate}">Applied Date</td>
-        <td th:text="${job.status}">Status</td>
+        <td th:text="${job.addedDate}">2024-06-01</td>
+        <td>
+            <input type="date" th:id="'appliedDate-' + ${job.id}" th:value="${job.appliedDate}" />
+            <button type="button" th:if="${job.appliedDate == null}" th:onclick="'setToday(' + 'appliedDate-' + ${job.id} + ')'">Set Today</button>
+        </td>
+        <td>
+            <select th:id="'status-' + ${job.id}" th:value="${job.status}">
+                <option value="LISTED" th:selected="${job.status == 'LISTED'}">Listed</option>
+                <option value="APPLIED" th:selected="${job.status == 'APPLIED'}">Applied</option>
+                <option value="REJECTED" th:selected="${job.status == 'REJECTED'}">Rejected</option>
+                <option value="IN_PROCESS" th:selected="${job.status == 'IN_PROCESS'}">In Process</option>
+                <option value="HIRED" th:selected="${job.status == 'HIRED'}">Hired</option>
+            </select>
+        </td>
+        <td>
+            <button type="button" th:onclick="'updateJob(' + ${job.id} + ')'">Update</button>
+            <button type="button" th:onclick="'deleteJob(' + ${job.id} + ')'">Delete</button>
+        </td>
     </tr>
     </tbody>
 </table>
+
 <div>
-    <button th:if="${jobOffersPage.hasNext()}" onclick="window.location.href='/jobs?page=${currentPage + 1}'">Load More</button>
+    <button th:if="${currentPage > 0}" th:onclick="window.location.href='/jobs?page=' + (${currentPage} - 1)">Previous</button>
+    <span th:text="${currentPage + 1}"></span>
+    <button th:if="${jobPage.hasNext()}" th:onclick="window.location.href='/jobs?page=' + (${currentPage} + 1)">Next</button>
 </div>
+
 <a href="/jobs/create">Create New Job Offer</a>
 </body>
 </html>

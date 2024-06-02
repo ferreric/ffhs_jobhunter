@@ -1,14 +1,13 @@
 package com.example.jplferrarijobhunt.controller;
 
 import com.example.jplferrarijobhunt.model.JobOffer;
-import com.example.jplferrarijobhunt.controller.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping("/jobs")
@@ -31,7 +30,14 @@ public class JobController {
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
-        model.addAttribute("jobOffer", new JobOffer());
+        JobOffer defaultJobOffer = new JobOffer(
+                "Job Description",
+                "https://www.",
+                LocalDate.now(),
+                null,
+                null
+        );
+        model.addAttribute("jobOffer", defaultJobOffer);
         return "jobform";
     }
 

@@ -4,32 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Job Offer</title>
+    <script>
+        function setToday(fieldId) {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById(fieldId).value = today;
+        }
+    </script>
 </head>
 <body>
 <h1>Create Job Offer</h1>
-<form action="/jobs" method="post">
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description" required><br><br>
-
-    <label for="url">URL:</label>
-    <input type="text" id="url" name="url" required><br><br>
-
-    <label for="addedDate">Added Date:</label>
-    <input type="date" id="addedDate" name="addedDate" required><br><br>
-
-    <label for="appliedDate">Applied Date:</label>
-    <input type="date" id="appliedDate" name="appliedDate"><br><br>
-
-    <label for="status">Status:</label>
-    <select id="status" name="status" required>
-        <option value="LISTED">LISTED</option>
-        <option value="APPLIED">APPLIED</option>
-        <option value="REJECTED">REJECTED</option>
-        <option value="IN_PROCESS">IN_PROCESS</option>
-        <option value="HIRED">HIRED</option>
-    </select><br><br>
-
-    <input type="submit" value="Submit">
+<form action="#" th:action="@{/jobs}" th:object="${jobOffer}" method="post">
+    <div>
+        <label for="description">Description:</label>
+        <input type="text" id="description" th:field="*{description}" required/>
+    </div>
+    <div>
+        <label for="url">URL:</label>
+        <input type="text" id="url" th:field="*{url}" required/>
+    </div>
+    <div>
+        <label for="addedDate">Added Date:</label>
+        <input type="date" id="addedDate" th:field="*{addedDate}" required/>
+        <button type="button" onclick="setToday('addedDate')">Set Today</button>
+    </div>
+    <div>
+        <label for="appliedDate">Applied Date:</label>
+        <input type="date" id="appliedDate" th:field="*{appliedDate}"/>
+        <button type="button" onclick="setToday('appliedDate')">Set Today</button>
+    </div>
+    <div>
+        <label for="status">Status:</label>
+        <select id="status" th:field="*{status}">
+            <option value="LISTED">Listed</option>
+            <option value="APPLIED">Applied</option>
+            <option value="REJECTED">Rejected</option>
+            <option value="IN_PROCESS">In Process</option>
+            <option value="HIRED">Hired</option>
+        </select>
+    </div>
+    <div>
+        <button type="submit">Create Job Offer</button>
+    </div>
 </form>
+<a href="/jobs">Back to Job Offers</a>
 </body>
 </html>

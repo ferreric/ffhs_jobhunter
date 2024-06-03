@@ -70,17 +70,19 @@
         <td th:text="${job.addedDate}">2024-06-01</td>
         <td>
             <input type="date" th:id="'appliedDate-' + ${job.id}" th:value="${job.appliedDate}" />
-            <button type="button" th:if="${job.appliedDate == null}" th:onclick="'setToday(' + 'appliedDate-' + ${job.id} + ')'">Set Today</button>
+            <button type="button" th:if="${job.appliedDate == null}"
+                    th:attr="onclick='setToday(\'appliedDate-' + ${job.id} + '\')'">Set Today</button>
         </td>
         <td>
-            <select th:id="'status-' + ${job.id}" th:value="${job.status}">
-                <option value="LISTED" th:selected="${job.status == 'LISTED'}">Listed</option>
-                <option value="APPLIED" th:selected="${job.status == 'APPLIED'}">Applied</option>
-                <option value="REJECTED" th:selected="${job.status == 'REJECTED'}">Rejected</option>
-                <option value="IN_PROCESS" th:selected="${job.status == 'IN_PROCESS'}">In Process</option>
-                <option value="HIRED" th:selected="${job.status == 'HIRED'}">Hired</option>
+            <select th:id="'status-' + ${job.id}" th:name="'status-' + ${job.id}">
+                <option value="LISTED" th:selected="${job.status.name() == 'LISTED'}">Listed</option>
+                <option value="APPLIED" th:selected="${job.status.name() == 'APPLIED'}">Applied</option>
+                <option value="REJECTED" th:selected="${job.status.name() == 'REJECTED'}">Rejected</option>
+                <option value="IN_PROCESS" th:selected="${job.status.name() == 'IN_PROCESS'}">In Process</option>
+                <option value="HIRED" th:selected="${job.status.name() == 'HIRED'}">Hired</option>
             </select>
         </td>
+
         <td>
             <button type="button" th:onclick="'updateJob(' + ${job.id} + ')'">Update</button>
             <button type="button" th:onclick="'deleteJob(' + ${job.id} + ')'">Delete</button>

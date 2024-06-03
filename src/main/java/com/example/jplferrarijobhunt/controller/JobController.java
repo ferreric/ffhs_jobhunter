@@ -1,6 +1,5 @@
 package com.example.jplferrarijobhunt.controller;
 
-import com.example.jplferrarijobhunt.model.ApplicationStatus;
 import com.example.jplferrarijobhunt.model.JobOffer;
 import com.example.jplferrarijobhunt.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,7 @@ public class JobController {
                 "Job Description",
                 "https://www.",
                 null,
-                ApplicationStatus.LISTED
+                null
         );
         model.addAttribute("jobOffer", defaultJobOffer);
         return "jobform";

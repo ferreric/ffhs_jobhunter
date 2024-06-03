@@ -1,10 +1,28 @@
 services:
-  mariadb:
-    image: 'mariadb:latest'
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
     environment:
-      - 'MARIADB_DATABASE=mydatabase'
-      - 'MARIADB_PASSWORD=secret'
-      - 'MARIADB_ROOT_PASSWORD=verysecret'
-      - 'MARIADB_USER=myuser'
+      POSTGRES_DB: jobhunter
+      POSTGRES_USER: jobhunter
+      POSTGRES_PASSWORD: hunterpw
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     ports:
-      - '3306'
+      - "5432:5432"
+
+  springboot:
+    build: .
+    container_name: springboot
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/jobhunter
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:

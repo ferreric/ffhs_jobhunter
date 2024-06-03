@@ -78,7 +78,7 @@ public class JobController {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public String handleException(Exception e) {
-        e.printStackTrace();  // Ausgabe des Stacktraces in der Konsole
+        e.printStackTrace();  // output stacktrace in console
         return "Error: " + e.getMessage();
     }
 }

@@ -89,11 +89,8 @@
     </tbody>
 </table>
 
-<div>
-    <button th:if="${currentPage > 0}" th:onclick="'window.location.href=/jobs?page=' + ${currentPage - 1}">Previous Page</button>
-    <span th:text="'Page ' + ${currentPage + 1}"></span>
-    <button th:if="${jobPage.hasNext()}" th:onclick="'window.location.href=/jobs?page=' + ${currentPage + 1}">Next Page</button>
-</div>
+<a th:if="${currentPage > 0}" th:href="@{/jobs(page=${currentPage - 1})}">Previous Page</a>
+<a th:if="${jobPage.hasNext()}" th:href="@{/jobs(page=${currentPage + 1})}">Next Page</a>
 
 <a href="/jobs/create">Create New Job Offer</a>
 </body>

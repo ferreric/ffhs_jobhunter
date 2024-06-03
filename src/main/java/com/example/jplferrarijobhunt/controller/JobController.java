@@ -11,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Controller
@@ -28,7 +26,7 @@ public class JobController {
 
     @GetMapping
     public String getAllJobs(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<JobOffer> jobPage = jobService.findAllJobs(PageRequest.of(page, 10));
+        Page<JobOffer> jobPage = jobService.findAllJobs(PageRequest.of(page, 10)); // pagesize hard coded. to do: make it editable
         model.addAttribute("jobPage", jobPage);
         model.addAttribute("currentPage", page);
         return "joblist";

@@ -1,5 +1,6 @@
 package com.example.jplferrarijobhunt.controller;
 
+import com.example.jplferrarijobhunt.model.ApplicationStatus;
 import com.example.jplferrarijobhunt.model.JobOffer;
 import com.example.jplferrarijobhunt.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Controller
@@ -37,9 +39,8 @@ public class JobController {
         JobOffer defaultJobOffer = new JobOffer(
                 "Job Description",
                 "https://www.",
-                LocalDate.now(),
                 null,
-                null
+                ApplicationStatus.LISTED
         );
         model.addAttribute("jobOffer", defaultJobOffer);
         return "jobform";

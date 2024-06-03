@@ -18,7 +18,7 @@ public class JobOffer {
         private String description;
         @Column(name = "url")
         private String url;
-        @Column(name = "added_date")
+        @Column(name = "added_date", updatable = false, insertable = false)
         private LocalDate addedDate;
         @Column(name = "applied_date")
         private LocalDate appliedDate;
@@ -29,11 +29,10 @@ public class JobOffer {
         // Standardkonstruktor
         public JobOffer() {}
 
-        // Konstruktor mit allen Feldern
-        public JobOffer(String description, String url, LocalDate addedDate, LocalDate appliedDate, ApplicationStatus status) {
+        // Konstruktor mit allen editierbaren Feldern
+        public JobOffer(String description, String url, LocalDate appliedDate, ApplicationStatus status) {
                 this.description = description;
                 this.url = url;
-                this.addedDate = addedDate;
                 this.appliedDate = appliedDate;
                 this.status = status;
         }
@@ -65,10 +64,6 @@ public class JobOffer {
 
         public LocalDate getAddedDate() {
                 return addedDate;
-        }
-
-        public void setAddedDate(LocalDate addedDate) {
-                this.addedDate = addedDate;
         }
 
         public LocalDate getAppliedDate() {

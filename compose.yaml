@@ -16,8 +16,8 @@ services:
     container_name: springboot
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/jobhunter
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_DATASOURCE_USERNAME: jobhunter
+      SPRING_DATASOURCE_PASSWORD: hunterpw
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
       - postgres

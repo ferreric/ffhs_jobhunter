@@ -1,14 +1,15 @@
-# Use an official Java runtime as a parent image
-FROM openjdk:17-jdk-slim
-
+FROM tomcat:10-jdk11-corretto
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /usr/local/tomcat
 
-# Copy the Spring Boot jar file into the container
-COPY target/jpl-ferrari-jobhunt-0.0.1-SNAPSHOT.jar app.jar
+# Remove default webapps
+RUN rm -rf webapps/*
 
-# Expose the port that the application will run on
+# Copy the WAR file to the webapps directory
+COPY build/libs/jpl-ferrari-jobhunt-0.0.1-SNAPSHOT.war webapps/ROOT.war
+
+# Expose the default port for Tomcat
 EXPOSE 8080
 
-# Run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Start Tomcat
+CMD ["catalina.sh", "run"]

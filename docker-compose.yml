@@ -1,3 +1,4 @@
+
 services:
   postgres:
     image: postgres:16-alpine
@@ -8,21 +9,25 @@ services:
       POSTGRES_PASSWORD: hunterpw
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
     ports:
-      - "5432:5432"
+      - "5678:5432"
 
   springboot:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: springboot
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/jobhunter
       SPRING_DATASOURCE_USERNAME: jobhunter
       SPRING_DATASOURCE_PASSWORD: hunterpw
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.PostgreSQLDialect
     depends_on:
       - postgres
     ports:
-      - "8080:8080"
+      - "8989:8080"
 
 volumes:
   postgres_data:

@@ -3,6 +3,7 @@ plugins {
     id 'war'
     id 'org.springframework.boot' version '3.3.0'
     id 'io.spring.dependency-management' version '1.1.5'
+    id 'com.palantir.docker' version '0.36.0' // Docker Plugin
 }
 
 group = 'com.example'
@@ -31,6 +32,8 @@ dependencies {
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     runtimeOnly 'org.postgresql:postgresql'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
@@ -40,4 +43,18 @@ tasks.named('test') {
 
 war {
     enabled = true
+}
+
+docker {
+    name "${project.group}/${project.name}:${project.version}"
+    files tasks.war.archiveFile
+    buildArgs(['JAR_FILE': tasks.war.archiveFileName.get()])
+}
+
+springBoot {
+    buildInfo()
+}
+
+test {
+    useJUnitPlatform()
 }

@@ -1,6 +1,8 @@
 package com.example.jplferrarijobhunt;
 
+import com.example.jplferrarijobhunt.service.JobService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -17,15 +19,19 @@ class JplFerrariJobhuntApplicationTests {
     @Container
     public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:15")
             .withDatabaseName("jobhunter")
-            .withUsername("admin")
-            .withPassword("admin");
+            .withUsername("jobhunter")
+            .withPassword("hunterpw");
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
         registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
+        registry.add("spring.jpa.hibernate.ddl-auto", () -> "update");
     }
+
+    @Autowired
+    private JobService jobService;
 
     @Test
     void contextLoads() {

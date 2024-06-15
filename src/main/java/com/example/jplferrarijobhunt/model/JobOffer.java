@@ -69,4 +69,6 @@ public class JobOffer {
         public void setStatus(ApplicationStatus status) {
                 this.status = status;
         }
+
+        public String getUrl() {return url;}
 }

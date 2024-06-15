@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Hunter</title>
+</head>
+<body>
+    <h1>Welcome to Job Hunter!</h1>
+
+    <p>Find your dream job or track your applications.</p>
+
+    <ul>
+        <li><a th:href="@{/jobs}">View All Jobs</a></li>
+        <li><a th:href="@{/jobs/create}">Create New Job Offer</a></li>
+    </ul>
+</body>
+</html>

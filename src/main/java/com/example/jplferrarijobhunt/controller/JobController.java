@@ -2,6 +2,7 @@ package com.example.jplferrarijobhunt.controller;
 
 import com.example.jplferrarijobhunt.model.JobOffer;
 import com.example.jplferrarijobhunt.service.JobService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/jobs")
 public class JobController {
 
     private final JobService jobService;
@@ -23,15 +23,24 @@ public class JobController {
         this.jobService = jobService;
     }
 
-    @GetMapping
+    @GetMapping("/")
+    public String home() {
+    return "home";
+}
+    @GetMapping("/jobs")
     public String getAllJobs(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<JobOffer> jobPage = jobService.findAllJobs(PageRequest.of(page, 10)); // pagesize hard coded. to do: make it editable
-        model.addAttribute("jobPage", jobPage);
-        model.addAttribute("currentPage", page);
-        return "joblist";
+    Page<JobOffer> jobPage = jobService.findAllJobs(PageRequest.of(page, 10)); // pagesize hard coded. to do: make it editable
+    for (JobOffer job : jobPage) {
+        if (job == null || job.getUrl() == null) {
+            throw new IllegalArgumentException("Job or job URL is null");
+        }
     }
+    model.addAttribute("jobPage", jobPage);
+    model.addAttribute("currentPage", page);
+    return "joblist";
+}
 
-    @GetMapping("/create")
+    @GetMapping("/jobs/create")
     public String showCreateForm(Model model) {
         JobOffer defaultJobOffer = new JobOffer(
                 "Job Description",
@@ -43,18 +52,19 @@ public class JobController {
         return "jobform";
     }
 
-    @GetMapping("/{id}")
-    public Optional<JobOffer> getJobById(@PathVariable Integer id) {
-        return jobService.findJobById(id);
-    }
+    @GetMapping("/jobs/{id}")
+public ResponseEntity<JobOffer> getJobById(@PathVariable Integer id) {
+    Optional<JobOffer> jobOptional = jobService.findJobById(id);
+        return jobOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+}
 
-    @PostMapping
+    @PostMapping("/jobs")
     public String createJob(@ModelAttribute JobOffer job) {
         jobService.saveJob(job);
         return "redirect:/jobs";
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/jobs/{id}")
     @ResponseBody
     public JobOffer updateJob(@PathVariable Integer id, @RequestBody JobOffer updatedJob) {
         Optional<JobOffer> existingJob = jobService.findJobById(id);
@@ -65,20 +75,20 @@ public class JobController {
             jobService.saveJob(job);
             return job;
         } else {
-            throw new RuntimeException("Job not found");
+            throw new EntityNotFoundException("Job not found");
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/jobs/{id}")
     @ResponseBody
     public ResponseEntity<?> deleteJob(@PathVariable Integer id) {
         jobService.deleteJob(id);
         return ResponseEntity.ok().build();
     }
+
     @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public String handleException(Exception e) {
-        e.printStackTrace();  // output stacktrace in console
-        return "Error: " + e.getMessage();
-    }
+public String handleException(Exception e, Model model) {
+    model.addAttribute("errorMessage", e.getMessage());
+    return "error";
+}
 }

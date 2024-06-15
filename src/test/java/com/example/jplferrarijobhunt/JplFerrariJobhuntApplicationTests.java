@@ -1,39 +1,38 @@
 package com.example.jplferrarijobhunt;
 
 import com.example.jplferrarijobhunt.service.JobService;
+import com.example.jplferrarijobhunt.repository.JobRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.ApplicationContext;
 
-@SpringBootTest
-@Testcontainers
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+@SpringBootTest (classes = JplFerrariJobhuntApplication.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class JplFerrariJobhuntApplicationTests {
-
-    @Container
-    public static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:15")
-            .withDatabaseName("jobhunter")
-            .withUsername("jobhunter")
-            .withPassword("hunterpw");
-
-    @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
-        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
-        registry.add("spring.jpa.hibernate.ddl-auto", () -> "update");
-    }
+class JplFerrariJobhuntApplicationTests extends AbstractIntegrationTest {
 
     @Autowired
     private JobService jobService;
 
+    @Autowired
+    private JobRepository jobRepository;
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @BeforeEach
+    void setUp() {
+        ((AbstractApplicationContext) applicationContext).getBeanFactory().registerDependentBean("dataSource", postgreSQLContainer.getContainerId());
+        jobRepository.deleteAllInBatch();
+    }
+
     @Test
     void contextLoads() {
+        assertNotNull(jobService, "JobService should be initialized");
     }
 }

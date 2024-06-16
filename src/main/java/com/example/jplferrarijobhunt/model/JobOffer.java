@@ -1,7 +1,6 @@
 package com.example.jplferrarijobhunt.model;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
 
@@ -9,7 +8,7 @@ import java.time.LocalDate;
 @Table(name = "job_offer")
 public class JobOffer {
 
-        @jakarta.persistence.Id @Id
+        @jakarta.persistence.Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id")
         private Integer id;

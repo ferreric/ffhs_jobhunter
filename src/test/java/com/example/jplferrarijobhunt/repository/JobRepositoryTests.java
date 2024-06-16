@@ -5,7 +5,6 @@ import com.example.jplferrarijobhunt.model.JobOffer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

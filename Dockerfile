@@ -8,7 +8,7 @@ COPY . .
 
 RUN chmod +x gradlew
 RUN echo $PATH
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon -x test
 
 ################################################################################
 

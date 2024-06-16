@@ -1,4 +1,3 @@
-
 services:
   postgres:
     image: postgres:16-alpine
@@ -24,6 +23,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - gradle-cache:/gradle  # Bind the gradle-cache volume to /gradle
     container_name: springboot
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/jobhunter
@@ -39,3 +39,4 @@ services:
 
 volumes:
   postgres_data:
+  gradle-cache:

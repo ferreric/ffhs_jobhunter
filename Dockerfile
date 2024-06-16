@@ -3,11 +3,16 @@ FROM gradle:8.7-jdk17-jammy AS BUILD
 
 WORKDIR /app
 
+# Set Gradle user home to a Docker volume. requires "docker volume create --name gradle-cache".
+ENV GRADLE_USER_HOME /gradle
+
 # Cache dependencies
+COPY build.gradle ./
+RUN gradle dependencies --no-daemon
+
+# Copy the rest of the code
 COPY . .
 
-RUN chmod +x gradlew
-RUN echo $PATH
 RUN gradle build --no-daemon -x test
 
 ################################################################################

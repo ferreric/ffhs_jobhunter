@@ -54,13 +54,14 @@ public class JobController {
     }
 
     @GetMapping("/jobs/{id}")
-public ResponseEntity<JobOffer> getJobById(@PathVariable Integer id) {
-    Optional<JobOffer> jobOptional = jobService.findJobById(id);
-        return jobOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-}
+    public ResponseEntity<JobOffer> getJobById(@PathVariable Integer id) {
+        Optional<JobOffer> jobOptional = jobService.findJobById(id);
+            return jobOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     @PostMapping("/jobs")
     public String createJob(@ModelAttribute JobOffer job) {
+        System.out.println(job);
         jobService.saveJob(job);
         return "redirect:/jobs";
     }

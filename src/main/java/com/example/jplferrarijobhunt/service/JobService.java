@@ -30,6 +30,7 @@ public class JobService {
 
     @Transactional
     public JobOffer saveJob(JobOffer job) {
+        System.out.println("Saving job: " + job);
         return jobRepository.save(job);
     }
 

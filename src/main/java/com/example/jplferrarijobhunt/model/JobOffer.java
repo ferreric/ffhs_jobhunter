@@ -49,6 +49,11 @@ public class JobOffer {
                 return description;
         }
 
+        // Setter für description
+        public void setDescription(String description) {
+                this.description = description;
+        }
+
         public LocalDate getAddedDate() {
                 return addedDate;
         }
@@ -70,4 +75,20 @@ public class JobOffer {
         }
 
         public String getUrl() {return url;}
+
+        // Setter für url
+        public void setUrl(String url) {
+                this.url = url;
+        }
+
+        public String toString() {
+                return "JobOffer{" +
+                        "id=" + id +
+                        ", description='" + description + '\'' +
+                        ", url='" + url + '\'' +
+                        ", addedDate=" + addedDate +
+                        ", appliedDate=" + appliedDate +
+                        ", status=" + status +
+                        '}';
+        }
 }

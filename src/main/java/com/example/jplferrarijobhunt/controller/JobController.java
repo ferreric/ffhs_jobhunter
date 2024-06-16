@@ -27,18 +27,19 @@ public class JobController {
     public String home() {
     return "home";
 }
+
     @GetMapping("/jobs")
     public String getAllJobs(Model model, @RequestParam(defaultValue = "0") int page) {
     Page<JobOffer> jobPage = jobService.findAllJobs(PageRequest.of(page, 10)); // pagesize hard coded. to do: make it editable
     for (JobOffer job : jobPage) {
-        if (job == null || job.getUrl() == null) {
-            throw new IllegalArgumentException("Job or job URL is null");
+            if (job == null || job.getUrl() == null) {
+                throw new IllegalArgumentException("Job or job URL is null");
+            }
         }
+        model.addAttribute("jobPage", jobPage);
+        model.addAttribute("currentPage", page);
+        return "joblist";
     }
-    model.addAttribute("jobPage", jobPage);
-    model.addAttribute("currentPage", page);
-    return "joblist";
-}
 
     @GetMapping("/jobs/create")
     public String showCreateForm(Model model) {

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
@@ -31,7 +32,8 @@ public class JobServiceTests {
     public void testFindAllJobs() {
         JobOffer job1 = new JobOffer("ICT-Praktikant", "www.ictjob.ch", null, ApplicationStatus.LISTED);
         JobOffer job2 = new JobOffer("Software Engineer", "www.ictjob.ch", null, ApplicationStatus.APPLIED);
-        when(jobRepository.findAll()).thenReturn(List.of(job1, job2));
+        Page<JobOffer> page = new PageImpl<>(List.of(job1, job2));
+        when(jobRepository.findAll(any(PageRequest.class))).thenReturn(page);
 
         Page<JobOffer> jobOffers = jobService.findAllJobs(PageRequest.of(0,10));
         assertThat(jobOffers).hasSize(2);

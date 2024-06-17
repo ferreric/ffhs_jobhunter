@@ -41,6 +41,7 @@ eval $(minikube docker-env)
 4. Deployen Sie die PostgreSQL-Datenbank:
 
 ```bash
+kubectl apply -f k8s_init-db.yaml
 kubectl apply -f k8s_manifest_postgres.yaml
 ```
 

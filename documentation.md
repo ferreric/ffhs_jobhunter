@@ -34,8 +34,13 @@ minikube start
 
 3. Setzen Sie die Docker-Umgebung auf Minikube:
 
+Linux / Mac
 ```bash
 eval $(minikube docker-env)
+```
+Windows / Powershell
+```bash
+minikube -p minikube docker-env | Invoke-Expression
 ```
 
 4. Deployen Sie die PostgreSQL-Datenbank:
@@ -51,7 +56,13 @@ kubectl apply -f k8s_manifest_postgres.yaml
 kubectl apply -f k8s_manifest_springboot.yaml
 ```
 
-Die Anwendung sollte nun in Ihrem Kubernetes-Cluster laufen und über den NodePort des Spring Boot Services erreichbar sein.
+Die Anwendung sollte nun in Ihrem Kubernetes-Cluster laufen und über den NodePort des Spring Boot Services (hier 30080) erreichbar sein.
+
+Wenn Sie Probleme haben, auf den Service zuzugreifen, könnten Sie versuchen, den Service direkt aus dem Minikube-Cluster heraus zu testen. Sie können dies mit dem Befehl
+```bash
+minikube service springboot
+```
+tun, der den Service in Ihrem Standard-Webbrowser öffnen sollte.
 
 ## Code
 

@@ -1,2 +1,1 @@
-# ffhs_jobhunter
-Spring Boot Application to be deplopyed with Kubernetes
+Study Project. Simple Web app with Thymeleaf HTML Templates, Spring Boot Application and Postgres Database. Deployable on Kubernetes.
